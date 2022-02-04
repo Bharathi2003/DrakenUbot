@@ -153,7 +153,7 @@ async def pack_kangish(_):
     if len(_.text) > 9:
         _packname = _.text.split(" ", maxsplit=1)[1]
     else:
-        _packname = f"@Kmax_01 Pack By Draken UB"
+        _packname = '@Kmax_01 Pack By Draken UB'
     if _e and _e.media and _e.media.document.mime_type == "image/webp":
         _id = _e.media.document.attributes[1].stickerset.id
         _hash = _e.media.document.attributes[1].stickerset.access_hash

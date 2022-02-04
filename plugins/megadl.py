@@ -34,10 +34,11 @@ async def _(e):
             await e.client.send_file(
                 e.chat_id,
                 res,
-                caption="`" + kk.split("/")[-1] + "`",
+                caption=f'`{kk.split("/")[-1]}`',
                 force_document=True,
                 thumb="resources/extras/ultroid.jpg",
             )
+
             c += 1
         except Exception as er:
             LOGS.info(er)

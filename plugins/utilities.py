@@ -261,7 +261,7 @@ async def _(event):
     try:
         if event.client._bot:
             return await eor(xx, reply_text)
-        ok = await event.client.inline_query(asst.me.username, "pasta-" + key)
+        ok = await event.client.inline_query(asst.me.username, f'pasta-{key}')
         await ok[0].click(event.chat_id, reply_to=event.reply_to_msg_id, hide_via=True)
         await xx.delete()
     except BaseException as e:
@@ -334,8 +334,7 @@ async def _(event):
         replied_user.user.bot,
         common_chats,
     )
-    chk = is_gbanned(user_id)
-    if chk:
+    if chk := is_gbanned(user_id):
         r = get_gban_reason(user_id)
         caption += "<b>••Gʟᴏʙᴀʟʟʏ Bᴀɴɴᴇᴅ</b>: <code>True</code>"
         if r:
@@ -401,19 +400,18 @@ async def rmbg(event):
             event,
             "Get your API key from [here](https://www.remove.bg/) for this plugin to work.",
         )
-    if event.reply_to_msg_id:
-        reply = await event.get_reply_message()
-        dl = await event.client.download_media(reply.media)
-        if not dl.endswith(("webp", "jpg", "png", "jpeg")):
-            os.remove(dl)
-            return await eor(event, "`Unsupported Media`")
-        xx = await eor(event, "`Sending to remove.bg`")
-        out = ReTrieveFile(dl)
-        os.remove(dl)
-    else:
+    if not event.reply_to_msg_id:
         return await eod(
             event, f"Use `{HNDLR}rmbg` as reply to a pic to remove its background."
         )
+    reply = await event.get_reply_message()
+    dl = await event.client.download_media(reply.media)
+    if not dl.endswith(("webp", "jpg", "png", "jpeg")):
+        os.remove(dl)
+        return await eor(event, "`Unsupported Media`")
+    xx = await eor(event, "`Sending to remove.bg`")
+    out = ReTrieveFile(dl)
+    os.remove(dl)
     contentType = out.headers.get("content-type")
     rmbgp = "ult.png"
     if "image" in contentType:
@@ -455,10 +453,10 @@ async def telegraphcmd(event):
         dar = mediainfo(reply.media)
         if dar == "sticker":
             os.rename(getit, getit + ".jpg")
-            getit = getit + ".jpg"
+            getit = f'{getit}.jpg'
         if "document" not in dar:
             try:
-                nn = "https://telegra.ph" + uf(getit)[0]
+                nn = f'https://telegra.ph{uf(getit)[0]}'
                 amsg = f"Uploaded to [Telegraph]({nn}) !"
             except Exception as e:
                 amsg = f"Error : {e}"
@@ -526,10 +524,7 @@ async def sugg(event):
             ),
         )
     except Exception as e:
-        return await eod(
-            event,
-            f"`Oops, you can't send polls here!\n\n{str(e)}`",
-        )
+        return await eod(event, f"`Oops, you can't send polls here!\n\n{e}`")
     await event.delete()
 
 
@@ -538,7 +533,7 @@ async def ipinfo(event):
     ip = event.text.split(" ")
     ipaddr = ""
     try:
-        ipaddr = "/" + ip[1]
+        ipaddr = f'/{ip[1]}'
     except IndexError:
         ipaddr = ""
     url = f"https://ipinfo.io{ipaddr}/geo"

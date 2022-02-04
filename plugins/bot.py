@@ -223,8 +223,7 @@ async def inline_alive(ult):
             if ".jpg" in pic:
                 results = [await builder.photo(pic, text=als, buttons=buttons)]
             else:
-                _pic = resolve_bot_file_id(pic)
-                if _pic:
+                if _pic := resolve_bot_file_id(pic):
                     pic = _pic
                     buttons.insert(0, [Button.inline("Stats", data="alive")])
                 results = [

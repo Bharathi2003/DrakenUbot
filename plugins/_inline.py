@@ -32,9 +32,7 @@ if add_ons == "True" or add_ons is None:
 else:
     zhelps = get_string("inline_3")
 
-C_PIC = udB.get("INLINE_PIC")
-
-if C_PIC:
+if C_PIC := udB.get("INLINE_PIC"):
     _file_to_replace = C_PIC
     TLINK = C_PIC
 else:
@@ -89,8 +87,7 @@ async def inline_alive(o):
 async def inline_handler(event):
     z = []
     for x in LIST.values():
-        for y in x:
-            z.append(y)
+        z.extend(iter(x))
     result = event.builder.photo(
         file=_file_to_replace,
         link_preview=False,
@@ -109,7 +106,7 @@ async def inline_handler(event):
 @in_owner
 async def _(event):
     ok = event.text.split("-")[1]
-    link = "https://spaceb.in/" + ok
+    link = f'https://spaceb.in/{ok}'
     raw = f"https://spaceb.in/api/v1/documents/{ok}/raw"
     result = await event.builder.article(
         title="Paste",
@@ -129,8 +126,7 @@ async def _(event):
 async def setting(event):
     z = []
     for x in LIST.values():
-        for y in x:
-            z.append(y)
+        z.extend(iter(x))
     cmd = len(z)
     await event.edit(
         get_string("inline_4").format(
@@ -430,8 +426,7 @@ async def bvckr(event):
 async def opner(event):
     z = []
     for x in LIST.values():
-        for y in x:
-            z.append(y)
+        z.extend(iter(x))
     await event.edit(
         get_string("inline_4").format(
             OWNER_NAME,
@@ -610,7 +605,7 @@ def page_num(page_number, loaded_plugins, prefix, type_):
     multi = emoji or "࿂"
     global upage
     upage = page_number
-    helpable_plugins = [p for p in loaded_plugins]
+    helpable_plugins = list(loaded_plugins)
     helpable_plugins = sorted(helpable_plugins)
     modules = [
         Button.inline(

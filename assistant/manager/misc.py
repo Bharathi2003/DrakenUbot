@@ -13,8 +13,7 @@ from . import *
 
 @ultroid_cmd(pattern="echo ?(.*)", type=["manager"])
 async def oqha(e):
-    match = e.pattern_match.group(1)
-    if match:
+    if match := e.pattern_match.group(1):
         text = match
         reply_to = e
     elif e.is_reply:

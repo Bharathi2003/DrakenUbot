@@ -54,8 +54,7 @@ async def _(event):
     if len(event.text) > 3 and event.text[3] != " ":
         return
     input = event.text[4:6]
-    txt = event.text[7:]
-    if txt:
+    if txt := event.text[7:]:
         text = txt
         lan = input or "en"
     elif event.is_reply:
@@ -164,7 +163,7 @@ async def _(ult):
         input = ult.text.split(" ", maxsplit=1)[1]
     except IndexError:
         return await eor(ult, "`Input some link`", time=5)
-    await eor(ult, "[ㅤㅤㅤㅤㅤㅤㅤ](" + input + ")", link_preview=False)
+    await eor(ult, f'[ㅤㅤㅤㅤㅤㅤㅤ]({input})', link_preview=False)
 
 
 @ultroid_cmd(
@@ -193,12 +192,13 @@ async def _(e):
             cv2.imwrite("img.png", output)
             thumb = "img.png"
         c = await downloader(
-            "resources/downloads/" + a.file.name,
+            f'resources/downloads/{a.file.name}',
             a.media.document,
             z,
             toime,
             "Dᴏᴡɴʟᴏᴀᴅɪɴɢ...",
         )
+
         await z.edit("**Dᴏᴡɴʟᴏᴀᴅᴇᴅ...\nNᴏᴡ Cᴏɴᴠᴇʀᴛɪɴɢ...**")
         await bash(
             f'ffmpeg -i "{c.name}" -preset ultrafast -acodec libmp3lame -ac 2 -ab 144 -ar 44100 comp.mp3'
@@ -245,9 +245,9 @@ async def _(e):
     if not files:
         files = "*"
     elif files.endswith("/"):
-        files = files + "*"
+        files = f'{files}*'
     elif "*" not in files:
-        files = files + "/*"
+        files = f'{files}/*'
     files = glob.glob(files)
     if not files:
         return await eor(e, "`Directory Empty or Incorrect.`", time=5)
@@ -321,23 +321,17 @@ async def _(e):
                         fp = os.path.join(path, f)
                         size += os.path.getsize(fp)
                 if hb(size):
-                    text += emoji + f" `{nam}`" + "  `" + hb(size) + "`\n"
+                    text += f'{emoji} `{nam}`  `' + hb(size) + "`\n"
                     fos += size
                 else:
-                    text += emoji + f" `{nam}`" + "\n"
+                    text += f'{emoji} `{nam}`' + "\n"
                 foc += 1
             else:
                 if hb(int(os.path.getsize(name))):
-                    text += (
-                        emoji
-                        + f" `{nam}`"
-                        + "  `"
-                        + hb(int(os.path.getsize(name)))
-                        + "`\n"
-                    )
+                    text += ((f'{emoji} `{nam}`  `' + hb(int(os.path.getsize(name)))) + "`\n")
                     fls += int(os.path.getsize(name))
                 else:
-                    text += emoji + f" `{nam}`" + "\n"
+                    text += f'{emoji} `{nam}`' + "\n"
                 flc += 1
         except BaseException:
             pass
@@ -365,7 +359,7 @@ async def _(e):
 )
 async def lastname(steal):
     mat = steal.pattern_match.group(1)
-    if not (steal.is_reply or mat):
+    if not steal.is_reply and not mat:
         return await eor(steal, "`Use this command with reply or give Username/id...`")
     if mat:
         user_id = await get_user_id(mat)
@@ -391,16 +385,15 @@ async def lastname(steal):
             ):
                 await lol.edit("No records found for this user")
                 await steal.client.delete_messages(conv.chat_id, [msg.id, response.id])
+            elif response.text.startswith("🔗"):
+                await lol.edit(respond.message)
+                await lol.reply(responds.message)
+            elif respond.text.startswith("🔗"):
+                await lol.edit(response.message)
+                await lol.reply(responds.message)
             else:
-                if response.text.startswith("🔗"):
-                    await lol.edit(respond.message)
-                    await lol.reply(responds.message)
-                elif respond.text.startswith("🔗"):
-                    await lol.edit(response.message)
-                    await lol.reply(responds.message)
-                else:
-                    await lol.edit(respond.message)
-                    await lol.reply(response.message)
+                await lol.edit(respond.message)
+                await lol.reply(response.message)
             await steal.client.delete_messages(
                 conv.chat_id,
                 [msg.id, responds.id, respond.id, response.id],

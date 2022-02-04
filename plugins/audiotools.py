@@ -46,9 +46,10 @@ async def vnc(e):
         r.media.document,
         xxx,
         c_time,
-        "Downloading " + dl + "...",
+        f'Downloading {dl}...',
     )
-    await xxx.edit(f"Downloaded Successfully, Now Converting to voice")
+
+    await xxx.edit('Downloaded Successfully, Now Converting to voice')
     await bash(
         f"ffmpeg -i '{file.name}' -map 0:a -codec:a libopus -b:a 100k -vbr on out.opus"
     )
@@ -85,8 +86,9 @@ async def trim_aud(e):
             vfile,
             xxx,
             c_time,
-            "Downloading " + name + "...",
+            f'Downloading {name}...',
         )
+
         o_size = os.path.getsize(file.name)
         d_time = time.time()
         diff = time_formatter((d_time - c_time) * 1000)
@@ -103,13 +105,7 @@ async def trim_aud(e):
         await bash(cmd)
         os.remove(file.name)
         f_time = time.time()
-        mmmm = await uploader(
-            out,
-            out,
-            f_time,
-            xxx,
-            "Uploading " + out + "...",
-        )
+        mmmm = await uploader(out, out, f_time, xxx, f'Uploading {out}...')
         metadata = extractMetadata(createParser(out))
         duration = vido.file.duration or 0
         artist = udB.get("artist") or ultroid_bot.first_name
@@ -152,13 +148,14 @@ async def ex_aud(e):
     msg = await eor(e, "`Processing...`")
     c_time = time.time()
     file = await downloader(
-        "resources/downloads/" + name,
+        f'resources/downloads/{name}',
         vfile,
         msg,
         c_time,
         "Downloading " + name + "...",
     )
-    out_file = file.name + ".aac"
+
+    out_file = f'{file.name}.aac'
     cmd = f"ffmpeg -i {file.name} -vn -acodec copy {out_file}"
     o, err = await bash(cmd)
     os.remove(file.name)
@@ -173,12 +170,9 @@ async def ex_aud(e):
     ]
     f_time = time.time()
     fo = await uploader(
-        out_file,
-        out_file,
-        f_time,
-        msg,
-        "Uploading " + out_file + "...",
+        out_file, out_file, f_time, msg, f'Uploading {out_file}...'
     )
+
     await e.client.send_file(
         e.chat_id,
         fo,

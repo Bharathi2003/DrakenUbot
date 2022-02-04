@@ -29,9 +29,7 @@ CLIENT = []
 
 
 def create_client(username, password):
-    settings = {}
-    if udB.get("INSTA_SET"):
-        settings = eval(udB.get("INSTA_SET"))
+    settings = eval(udB.get("INSTA_SET")) if udB.get("INSTA_SET") else {}
     try:
         return CLIENT[0]
     except IndexError:
@@ -104,7 +102,7 @@ async def soon_(e):
         data = cl.account_info()
         data = cl.user_info(data.pk)
     photo = data.profile_pic_url
-    unam = "https://instagram.com/" + data.username
+    unam = f'https://instagram.com/{data.username}'
     msg = f"• **Full Name** : __{data.full_name}__"
     msg += f"\n• **UserName** : [@{data.username}]({unam})"
     msg += f"\n• **Verified** : {data.is_verified}"

@@ -49,12 +49,13 @@ async def gen_sample(e):
         xxx = await eor(e, "`Trying To Download...`")
         c_time = time.time()
         file = await downloader(
-            "resources/downloads/" + name,
+            f'resources/downloads/{name}',
             vfile,
             xxx,
             c_time,
             "Downloading " + name + "...",
         )
+
         o_size = os.path.getsize(file.name)
         d_time = time.time()
         diff = time_formatter((d_time - c_time) * 1000)
@@ -68,13 +69,7 @@ async def gen_sample(e):
         await bash(cmd)
         os.remove(file.name)
         f_time = time.time()
-        mmmm = await uploader(
-            out,
-            out,
-            f_time,
-            xxx,
-            "Uploading " + out + "...",
-        )
+        mmmm = await uploader(out, out, f_time, xxx, f'Uploading {out}...')
         metadata = extractMetadata(createParser(out))
         duration = metadata.get("duration").seconds
         hi, _ = await bash(f'mediainfo "{out}" | grep "Height"')
@@ -124,8 +119,9 @@ async def gen_shots(e):
             vfile,
             xxx,
             c_time,
-            "Downloading " + name + "...",
+            f'Downloading {name}...',
         )
+
         o_size = os.path.getsize(file.name)
         d_time = time.time()
         diff = time_formatter((d_time - c_time) * 1000)
@@ -171,8 +167,9 @@ async def gen_sample(e):
             vfile,
             xxx,
             c_time,
-            "Downloading " + name + "...",
+            f'Downloading {name}...',
         )
+
         o_size = os.path.getsize(file.name)
         d_time = time.time()
         diff = time_formatter((d_time - c_time) * 1000)
@@ -189,13 +186,7 @@ async def gen_sample(e):
         await bash(cmd)
         os.remove(file.name)
         f_time = time.time()
-        mmmm = await uploader(
-            out,
-            out,
-            f_time,
-            xxx,
-            "Uploading " + out + "...",
-        )
+        mmmm = await uploader(out, out, f_time, xxx, f'Uploading {out}...')
         metadata = extractMetadata(createParser(out))
         duration = metadata.get("duration").seconds
         hi, _ = await bash(f'mediainfo "{out}" | grep "Height"')

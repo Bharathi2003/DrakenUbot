@@ -21,7 +21,7 @@ from . import *
 @vc_asst("ytplaylist")
 async def live_stream(e):
     xx = await eor(e, get_string("com_1"))
-    if not len(e.text.split()) > 1:
+    if len(e.text.split()) <= 1:
         return await eor(xx, "Are You Kidding Me?\nWhat to Play?")
     input = e.text.split()
     if input[1].startswith("-"):
@@ -39,7 +39,7 @@ async def live_stream(e):
     try:
         requests.get(song)
     except BaseException:
-        return await eor(xx, f"`Only Youtube Playlist please.`")
+        return await eor(xx, '`Only Youtube Playlist please.`')
     await xx.edit("`Keep patience... It'll take some time.`")
     file, thumb, title, link, duration = await dl_playlist(chat, from_user, song)
     ultSongs = Player(chat, e)
@@ -49,11 +49,12 @@ async def live_stream(e):
         from_user = inline_mention(e.sender)
         await xx.reply(
             "🎸 **Now playing:** [{}]({})\n⏰ **Duration:** `{}`\n👥 **Chat:** `{}`\n🙋‍♂ **Requested by:** {}".format(
-                title[:30] + "...", link, duration, chat, from_user
+                f'{title[:30]}...', link, duration, chat, from_user
             ),
             file=thumb,
             link_preview=False,
         )
+
         await xx.delete()
         await ultSongs.group_call.start_audio(file)
     else:

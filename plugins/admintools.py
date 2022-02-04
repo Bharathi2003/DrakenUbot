@@ -131,7 +131,7 @@ async def bban(ult):
     try:
         await ult.client.edit_permissions(ult.chat_id, user.id, view_messages=False)
     except BadRequestError:
-        return await xx.edit(f"`I don't have the right to ban a user.`")
+        return await xx.edit("`I don't have the right to ban a user.`")
     except UserIdInvalidError:
         return await xx.edit("`I couldn't get who he is!`")
     senderme = inline_mention(await ult.get_sender())
@@ -202,8 +202,9 @@ async def kck(ult):
         return await xx.edit("`I don't have the right to kick a user.`")
     except Exception as e:
         return await xx.edit(
-            f"`I don't have the right to kick a user.`\n\n**ERROR**:\n`{str(e)}`",
+            f"`I don't have the right to kick a user.`\n\n**ERROR**:\n`{e}`"
         )
+
     text = f"{inline_mention(user)} **was kicked by** {inline_mention(await ult.get_sender())} **in** `{ult.chat.title}`"
     if reason:
         text += f"\n**Reason**: `{reason}`"
@@ -309,8 +310,9 @@ async def fastpurger(purg):
         return await eor(purg, "`Reply to a message to purge from.`", time=10)
     try:
         await purg.client.delete_messages(
-            chat, [a for a in range(purg.reply_to_msg_id, purg.id + 1)]
+            chat, list(range(purg.reply_to_msg_id, purg.id + 1))
         )
+
     except Exception as er:
         LOGS.info(er)
     count = purg.id - purg.reply_to_msg_id
@@ -414,7 +416,7 @@ async def get_all_pinned(event):
         event.chat_id, filter=InputMessagesFilterPinned
     ):
         if i.message:
-            t = " ".join(i.message.split()[0:4])
+            t = " ".join(i.message.split()[:4])
             txt = "{}....".format(t)
         else:
             txt = "Go to message."

@@ -38,8 +38,7 @@ async def _(e):
 
 @ultroid_cmd(pattern="listclean$")
 async def _(e):
-    k = udB.get("CLEANCHAT")
-    if k:
+    if k := udB.get("CLEANCHAT"):
         k = k.split(" ")
         o = ""
         for x in k:
@@ -47,7 +46,7 @@ async def _(e):
                 title = e.chat.title
             except BaseException:
                 title = "`Invalid ID`"
-            o += x + " " + title + "\n"
+            o += f'{x} {title}' + "\n"
         await eor(e, o)
     else:
         await eor(e, "`No Chat Added`", time=5)

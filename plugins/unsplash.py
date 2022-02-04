@@ -38,11 +38,11 @@ async def searchunsl(ult):
     CL = []
     nl = 0
     for rp in qas:
-        li = "https://unsplash.com" + rp["href"]
+        li = f'https://unsplash.com{rp["href"]}'
         ct = r.get(li).content
         bst = bs(ct, "html.parser", from_encoding="utf-8")
         ft = bst.find_all("img", "oCCRx")[0]["src"]
-        Hp = dir + "img" + f"{nl}.png"
+        Hp = f'{dir}img' + f"{nl}.png"
         await download_file(ft, Hp)
         CL.append(Hp)
         nl += 1

@@ -38,7 +38,7 @@ async def webss(event):
             requests.get(xurl)
         except requests.ConnectionError:
             try:
-                xurl = "http://" + xurl
+                xurl = f'http://{xurl}'
                 requests.get(xurl)
             except requests.ConnectionError:
                 return await eor(xx, "Invalid URL!", time=5)

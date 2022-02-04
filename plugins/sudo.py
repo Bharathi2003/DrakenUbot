@@ -105,10 +105,10 @@ async def _(ult):
             name = (await ult.client.get_entity(int(i))).first_name
         except BaseException:
             name = ""
-        if name != "":
-            msg += f"• [{name}](tg://user?id={i}) ( `{i}` )\n"
-        else:
+        if not name:
             msg += f"• `{i}` -> Invalid User\n"
+        else:
+            msg += f"• [{name}](tg://user?id={i}) ( `{i}` )\n"
     m = udB.get("SUDO") or "False"
     if m == "False":
         m = "[False](https://telegra.ph/Ultroid-04-06)"

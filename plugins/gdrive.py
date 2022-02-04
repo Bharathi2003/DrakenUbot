@@ -62,12 +62,13 @@ async def _(event):
         reply_message = await event.get_reply_message()
         try:
             downloaded_file_name = await downloader(
-                "resources/downloads/" + reply_message.file.name,
+                f'resources/downloads/{reply_message.file.name}',
                 reply_message.media.document,
                 mone,
                 dddd,
                 "Downloading...",
             )
+
             filename = downloaded_file_name.name
         except TypeError:
             filename = await event.client.download_media(

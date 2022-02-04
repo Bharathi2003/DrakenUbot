@@ -44,7 +44,7 @@ async def logo_gen(event):
         if event.client._bot:
             SRCH = ["blur", "background", "neon lights", "wallpaper"]
             res = autopicsearch(random.choice(SRCH))
-            res = "https://unsplash.com" + random.choice(res)["href"]
+            res = f'https://unsplash.com{random.choice(res)["href"]}'
             bst = bs(requests.get(res).content, "html.parser", from_encoding="utf-8")
             ft = bst.find_all("img", "oCCRx")[0]["src"]
             bg_ = await download_file(ft, "resources/downloads/logo.png")

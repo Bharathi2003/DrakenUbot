@@ -95,9 +95,7 @@ async def _(e):
     _lets_split = _e.split("_", maxsplit=1)
     _ytdl_data = await dler(e, _yt_base_url + _lets_split[1])
     _data = get_data(_lets_split[0], _ytdl_data)
-    _buttons = get_buttons(
-        "ytdownload_" + _lets_split[0] + "_" + _lets_split[1] + ":", _data
-    )
+    _buttons = get_buttons(f'ytdownload_{_lets_split[0]}_{_lets_split[1]}:', _data)
     _text = "`Select Your Format.`"
     if not _buttons:
         _text = "`Error downloading from YouTube.\nTry Restarting your bot.`"
@@ -144,8 +142,13 @@ async def _(event):
         os.rename(f"{ytdl_data['id']}.mp3", f"{title}.mp3")
         c_time = time.time()
         file = await uploader(
-            f"{title}.mp3", f"{title}.mp3", c_time, event, "Uploading " + title + "..."
+            f"{title}.mp3",
+            f"{title}.mp3",
+            c_time,
+            event,
+            f'Uploading {title}...',
         )
+
         attributes = [
             DocumentAttributeAudio(
                 duration=int(duration),
@@ -189,8 +192,13 @@ async def _(event):
             return await event.edit(str(ex))
         c_time = time.time()
         file = await uploader(
-            f"{title}.mp4", f"{title}.mp4", c_time, event, "Uploading " + title + "..."
+            f"{title}.mp4",
+            f"{title}.mp4",
+            c_time,
+            event,
+            f'Uploading {title}...',
         )
+
         attributes = [
             DocumentAttributeVideo(
                 duration=int(duration),

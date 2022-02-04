@@ -58,12 +58,9 @@ async def pdfseimg(event):
     k = time.time()
     filename = "hehe.pdf"
     result = await downloader(
-        "pdf/" + filename,
-        file,
-        xx,
-        k,
-        "Downloading " + filename + "...",
+        "pdf/" + filename, file, xx, k, f'Downloading {filename}...'
     )
+
     await xx.delete()
     pdfp = "pdf/hehe.pdf"
     pdfp.replace(".pdf", "")
@@ -122,13 +119,7 @@ async def pdfsetxt(event):
     file = ok.media.document
     k = time.time()
     filename = ok.file.name
-    result = await downloader(
-        filename,
-        file,
-        xx,
-        k,
-        "Downloading " + filename + "...",
-    )
+    result = await downloader(filename, file, xx, k, f'Downloading {filename}...')
     await xx.delete()
     dl = result.name
     if not msg:
@@ -190,7 +181,7 @@ async def imgscan(event):
     ratio = image.shape[0] / 500.0
     image = imutils.resize(image, height=500)
     image_yuv = cv2.cvtColor(image, cv2.COLOR_BGR2YUV)
-    image_y = np.zeros(image_yuv.shape[0:2], np.uint8)
+    image_y = np.zeros(image_yuv.shape[:2], np.uint8)
     image_y[:, :] = image_yuv[:, :, 0]
     image_blurred = cv2.GaussianBlur(image_y, (3, 3), 0)
     edges = cv2.Canny(image_blurred, 50, 200, apertureSize=3)
@@ -247,7 +238,7 @@ async def savepdf(event):
         ratio = image.shape[0] / 500.0
         image = imutils.resize(image, height=500)
         image_yuv = cv2.cvtColor(image, cv2.COLOR_BGR2YUV)
-        image_y = np.zeros(image_yuv.shape[0:2], np.uint8)
+        image_y = np.zeros(image_yuv.shape[:2], np.uint8)
         image_y[:, :] = image_yuv[:, :, 0]
         image_blurred = cv2.GaussianBlur(image_y, (3, 3), 0)
         edges = cv2.Canny(image_blurred, 50, 200, apertureSize=3)

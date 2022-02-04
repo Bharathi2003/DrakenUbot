@@ -150,8 +150,7 @@ async def chatBot_replies(e):
     if not isinstance(sender, types.User):
         return
     if e.text and chatbot_stats(e.chat_id, e.sender_id):
-        msg = get_chatbot_reply(e, e.message.message)
-        if msg:
+        if msg := get_chatbot_reply(e, e.message.message):
             await e.reply(msg)
     chat = await e.get_chat()
     if e.is_group and not sender.bot:
@@ -178,12 +177,12 @@ async def uname_stuff(id, uname, name):
                 LOG_CHANNEL,
                 f"∆ #UsernameUpdate\n\n@{old} changed username to @{uname}",
             )
-        elif old and not uname:
+        elif old:
             await asst.send_message(
                 LOG_CHANNEL,
                 f"∆ #UsernameUpdate\n\n[{name}](tg://user?id={id}) removed its username. (@{old})",
             )
-        elif not old and uname:
+        elif uname:
             await asst.send_message(
                 LOG_CHANNEL,
                 f"∆ #UsernameUpdate\n\n[{name}](tg://user?id={id})'s new username --> @{uname}",

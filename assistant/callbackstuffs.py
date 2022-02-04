@@ -92,8 +92,9 @@ async def update(eve):
         ups_rem.fetch(ac_br)
         repo.git.reset("--hard", "FETCH_HEAD")
         heroku_git_url = heroku_app.git_url.replace(
-            "https://", "https://api:" + heroku_api + "@"
+            "https://", f'https://api:{heroku_api}@'
         )
+
         if "heroku" in repo.remotes:
             remote = repo.remote("heroku")
             remote.set_url(heroku_git_url)
@@ -152,13 +153,11 @@ async def _(e):
     ok = (e.data_match.group(1)).decode("UTF-8")
     with open(ok, "r") as hmm:
         _, key = await get_paste(hmm.read())
-    link = "https://spaceb.in/" + key
+    link = f'https://spaceb.in/{key}'
     raw = f"https://spaceb.in/api/v1/documents/{key}/raw"
     if not _:
         return await e.answer(key[:30], alert=True)
-    data = "buck"
-    if ok.startswith("plugins"):
-        data = "back"
+    data = "back" if ok.startswith("plugins") else "buck"
     buttons = [
         Button.inline("« Bᴀᴄᴋ", data=data),
         Button.inline("••Cʟᴏꜱᴇ••", data="close"),
@@ -328,7 +327,7 @@ async def rhwhe(e):
     else:
         udB.set("DUAL_MODE", "True")
         key = "On"
-    Msg = "Dual Mode : " + key
+    Msg = f'Dual Mode : {key}'
     await e.edit(Msg, buttons=get_back_button("otvars"))
 
 
@@ -905,8 +904,7 @@ async def name(event):
 @owner
 async def set_wrns(event):
     value = int(event.data_match.group(1).decode("UTF-8"))
-    dn = udB.set("PMWARNS", value)
-    if dn:
+    if dn := udB.set("PMWARNS", value):
         await event.edit(
             f"PM Warns Set to {value}.\nNew users will have {value} chances in PMs before getting banned.",
             buttons=get_back_button("pmcstm"),

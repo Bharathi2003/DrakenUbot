@@ -61,7 +61,7 @@ async def setwel(event):
             dl = await r.download_media()
             variable = uf(dl)
             os.remove(dl)
-            m = "https://telegra.ph" + variable[0]
+            m = f'https://telegra.ph{variable[0]}'
         elif wut == "web":
             m = None
         else:
@@ -116,7 +116,7 @@ async def setgb(event):
             dl = await r.download_media()
             variable = uf(dl)
             os.remove(dl)
-            m = "https://telegra.ph" + variable[0]
+            m = f'https://telegra.ph{variable[0]}'
         elif wut == "web":
             m = None
         else:

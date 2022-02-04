@@ -33,18 +33,12 @@ async def siesace(e):
         return await eod(lol, "`Song not found...`")
     title = song.split(".")[0]
     okk = await uploader(song, song, hmm, lol, "Uploading " + title + "...")
-    await e.reply(
-        file=okk,
-        message="`" + title + "`" + "\n`From Saavn`",
-        attributes=[
-            DocumentAttributeAudio(
-                duration=int(duration),
-                title=title,
-                performer=performer,
-            )
-        ],
-        supports_streaming=True,
-        thumb=thumb,
-    )
+    await e.reply(file=okk, message=f'`{title}`' + "\n`From Saavn`", attributes=[
+                DocumentAttributeAudio(
+                    duration=int(duration),
+                    title=title,
+                    performer=performer,
+                )
+            ], supports_streaming=True, thumb=thumb)
     await lol.delete()
     [os.remove(x) for x in [song, thumb]]

@@ -61,8 +61,9 @@ async def daudtoid(e):
         r.media.document,
         xxx,
         c_time,
-        "Downloading " + dl + "...",
+        f'Downloading {dl}...',
     )
+
     File.append(file.name)
     await xxx.edit("`Done.. Now reply to video In which u want to add this Audio`")
 
@@ -82,24 +83,19 @@ async def adaudroid(e):
     dl = r.file.name
     c_time = time.time()
     file = await downloader(
-        "resources/downloads/" + dl,
+        f'resources/downloads/{dl}',
         r.media.document,
         xxx,
         c_time,
-        "Downloading " + dl + "...",
+        f'Downloading {dl}...',
     )
-    await xxx.edit(f"Downloaded Successfully, Now Adding Your Audio to video")
+
+    await xxx.edit('Downloaded Successfully, Now Adding Your Audio to video')
     await bash(
         f'ffmpeg -i "{file.name}" -i "{File[0]}" -shortest -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 output.mp4'
     )
     out = "output.mp4"
-    mmmm = await uploader(
-        out,
-        out,
-        time.time(),
-        xxx,
-        "Uploading " + out + "...",
-    )
+    mmmm = await uploader(out, out, time.time(), xxx, f'Uploading {out}...')
     metadata = extractMetadata(createParser(out))
     duration = metadata.get("duration").seconds
     hi, _ = await bash(f'mediainfo "{out}" | grep "Height"')
@@ -247,7 +243,7 @@ async def _(event):
     if not x:
         return await eor(event, "`Give something to search`")
     uu = await eor(event, "`Processing...`")
-    z = request.get("https://combot.org/telegram/stickers?q=" + x).text
+    z = request.get(f'https://combot.org/telegram/stickers?q={x}').text
     xx = b(z, "lxml")
     title = xx.find_all("div", "sticker-pack__title")
     link = xx.find_all("a", target="_blank")

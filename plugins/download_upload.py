@@ -98,8 +98,9 @@ async def download(event):
                     file,
                     xx,
                     k,
-                    "Downloading " + filename + "...",
+                    f'Downloading {filename}...',
                 )
+
             except MessageNotModifiedError as err:
                 return await xx.edit(str(err))
             file_name = result.name

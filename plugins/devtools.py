@@ -60,9 +60,7 @@ async def _(event):
         cmd = event.text.split(" ", maxsplit=1)[1]
     except IndexError:
         return await eor(xx, "`No cmd given`", time=10)
-    reply_to_id = event.message.id
-    if event.reply_to_msg_id:
-        reply_to_id = event.reply_to_msg_id
+    reply_to_id = event.reply_to_msg_id or event.message.id
     stdout, stderr = await bash(cmd)
     OUT = f"**☞ BASH\n\n• COMMAND:**\n`{cmd}` \n\n"
     if stderr:
@@ -186,9 +184,7 @@ async def doie(e):
         return await eor(e, "`Give Some C++ Code..`")
     msg = await eor(e, "`Processing...`")
     if "main(" not in match:
-        new_m = ""
-        for i in match.split("\n"):
-            new_m += " " * 4 + i + "\n"
+        new_m = "".join(" " * 4 + i + "\n" for i in match.split("\n"))
         match = DUMMY_CPP.replace("!code", new_m)
     open("cpp-ultroid.cpp", "w").write(match)
     m = await bash("g++ -o CppUltroid cpp-ultroid.cpp")

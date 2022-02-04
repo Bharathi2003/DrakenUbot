@@ -36,7 +36,7 @@ async def af(e):
     chat = e.chat_id
     if not (wt and wrd):
         return await eor(e, "`Use this command word to set as filter and reply...`")
-    if wt and wt.media:
+    if wt.media:
         wut = mediainfo(wt.media)
         if wut.startswith(("pic", "gif")):
             dl = await wt.download_media()
@@ -48,7 +48,7 @@ async def af(e):
             dl = await wt.download_media()
             variable = uf(dl)
             os.remove(dl)
-            m = "https://telegra.ph" + variable[0]
+            m = f'https://telegra.ph{variable[0]}'
         else:
             m = pack_bot_file_id(wt.media)
         if wt.text:
@@ -72,8 +72,7 @@ async def rf(e):
 
 @ultroid_cmd(pattern="listfilter$")
 async def lsnote(e):
-    x = list_filter(e.chat_id)
-    if x:
+    if x := list_filter(e.chat_id):
         sd = "Filters Found In This Chats Are\n\n"
         await eor(e, sd + x)
     else:
@@ -86,13 +85,11 @@ async def fl(e):
         return
     xx = (e.text).lower()
     chat = e.chat_id
-    x = get_filter(chat)
-    if x:
+    if x := get_filter(chat):
         for c in x:
             pat = r"( |^|[^\w])" + re.escape(c) + r"( |$|[^\w])"
             if re.search(pat, xx):
-                k = x.get(c)
-                if k:
+                if k := x.get(c):
                     msg = k["msg"]
                     media = k["media"]
                     await e.reply(msg, file=media)

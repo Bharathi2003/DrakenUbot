@@ -76,8 +76,11 @@ async def all_messages_catcher(e):
     except ChatWriteForbiddenError:
         try:
             await asst.get_permissions(NEEDTOLOG, "me")
-            MSG = "Your Asst Cant Send Messages in Tag Log Chat."
-            MSG += "\n\nPlease Review the case or you can off"
+            MSG = (
+                "Your Asst Cant Send Messages in Tag Log Chat."
+                + "\n\nPlease Review the case or you can off"
+            )
+
             MSG += "Your TagLogger, if you dont want to use it"
         except UserNotParticipantError:
             MSG = "Add me to Your Tag Logger Chat to Log Tags"

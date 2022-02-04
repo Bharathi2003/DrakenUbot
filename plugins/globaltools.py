@@ -365,8 +365,7 @@ async def _(e):
 
 @ultroid_cmd(pattern="g(admin|)cast ?(.*)", fullsudo=True)
 async def gcast(event):
-    xx = event.pattern_match.group(2)
-    if xx:
+    if xx := event.pattern_match.group(2):
         msg = xx
     elif event.is_reply:
         msg = await event.get_reply_message()
@@ -379,18 +378,20 @@ async def gcast(event):
     async for x in event.client.iter_dialogs():
         if x.is_group:
             chat = x.entity.id
-            if not is_gblacklisted(chat) and not int("-100" + str(chat)) in NOSPAM_CHAT:
-                if event.text[2:7] == "admin" and not (
-                    x.entity.admin_rights or x.entity.creator
-                ):
-                    pass
-                else:
-                    try:
-                        done += 1
-                        await event.client.send_message(chat, msg)
-                    except Exception as h:
-                        err += "• " + str(h) + "\n"
-                        er += 1
+            if (
+                not is_gblacklisted(chat)
+                and int("-100" + str(chat)) not in NOSPAM_CHAT
+                and (
+                    event.text[2:7] != "admin"
+                    or (x.entity.admin_rights or x.entity.creator)
+                )
+            ):
+                try:
+                    done += 1
+                    await event.client.send_message(chat, msg)
+                except Exception as h:
+                    err += "• " + str(h) + "\n"
+                    er += 1
     text += f"Done in {done} chats, error in {er} chat(s)"
     if err != "":
         open("gcast-error.log", "w").write(h)
@@ -400,8 +401,7 @@ async def gcast(event):
 
 @ultroid_cmd(pattern="gucast ?(.*)", fullsudo=True)
 async def gucast(event):
-    xx = event.pattern_match.group(1)
-    if xx:
+    if xx := event.pattern_match.group(1):
         msg = xx
     elif event.is_reply:
         msg = await event.get_reply_message()
@@ -553,7 +553,7 @@ async def gstat_(e):
     else:
         return await eor(xx, "`Reply to some msg or add their id.`", time=5)
     name = (await e.client.get_entity(userid)).first_name
-    msg = "**" + name + " is "
+    msg = f'**{name} is '
     is_banned = is_gbanned(userid)
     reason = list_gbanned().get(userid)
     if is_banned:

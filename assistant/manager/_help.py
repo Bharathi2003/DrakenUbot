@@ -87,11 +87,11 @@ def get_buttons():
     while keys:
         BT = []
         for i in list(keys)[:2]:
-            text = MNGE + " " + i + " " + MNGE
-            BT.append(Button.inline(text, "hlp_" + i))
+            text = f'{MNGE} {i} ' + MNGE
+            BT.append(Button.inline(text, f'hlp_{i}'))
             del keys[i]
         BTTS.append(BT)
-    url = "https://t.me/" + asst.me.username + "?startgroup=true"
+    url = f'https://t.me/{asst.me.username}?startgroup=true'
     BTTS.append([Button.url("Add me to Group", url)])
     return BTTS
 
@@ -99,7 +99,7 @@ def get_buttons():
 @asst_cmd("help")
 async def helpish(event):
     if not event.is_private:
-        url = "https://t.me/" + asst.me.username + "?start=start"
+        url = f'https://t.me/{asst.me.username}?start=start'
         return await event.reply(
             "Contact me in PM for help!", buttons=Button.url("Click me for Help", url)
         )

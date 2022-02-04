@@ -55,7 +55,7 @@ async def _(e):
         return await eor(e, pop)
     variable = uf(dl)
     os.remove(dl)
-    nn = "https://telegra.ph" + variable[0]
+    nn = f'https://telegra.ph{variable[0]}'
     udB.set("CUSTOM_THUMBNAIL", str(nn))
     await bash(f"wget {nn} -O resources/extras/ultroid.jpg")
     await eor(e, f"Added [This]({nn}) As Your Custom Thumbnail", link_preview=False)

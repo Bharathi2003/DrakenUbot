@@ -41,7 +41,7 @@ async def autopic(e):
             ge = udB.get("AUTOPIC")
             if ge != "True":
                 return
-            au = "https://unsplash.com" + lie["href"]
+            au = f'https://unsplash.com{lie["href"]}'
             ct = r.get(au).content
             bsc = bs(ct, "html.parser", from_encoding="utf-8")
             ft = bsc.find_all("img", "oCCRx")

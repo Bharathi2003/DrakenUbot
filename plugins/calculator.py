@@ -72,28 +72,23 @@ async def _(e):
         udB.delete("calc")
         await e.answer("cleared")
     elif x == "⌫":
-        get = udB.get("calc")
-        if get:
+        if get := udB.get("calc"):
             udB.set("calc", get[:-1])
             await e.answer(str(get[:-1]))
     elif x == "%":
-        get = udB.get("calc")
-        if get:
+        if get := udB.get("calc"):
             udB.set("calc", get + "/100")
             await e.answer(str(get + "/100"))
     elif x == "÷":
-        get = udB.get("calc")
-        if get:
+        if get := udB.get("calc"):
             udB.set("calc", get + "/")
-            await e.answer(str(get + "/"))
+            await e.answer(str(f'{get}/'))
     elif x == "x":
-        get = udB.get("calc")
-        if get:
+        if get := udB.get("calc"):
             udB.set("calc", get + "*")
-            await e.answer(str(get + "*"))
+            await e.answer(str(f'{get}*'))
     elif x == "=":
-        get = udB.get("calc")
-        if get:
+        if get := udB.get("calc"):
             if get.endswith(("*", ".", "/", "-", "+")):
                 get = get[:-1]
             out = await calcc(get, e)
@@ -105,8 +100,7 @@ async def _(e):
                 await e.answer("Error", cache_time=0, alert=True)
         await e.answer("None")
     else:
-        get = udB.get("calc")
-        if get:
+        if get := udB.get("calc"):
             udB.set("calc", get + x)
             await e.answer(str(get + x))
         udB.set("calc", x)
